@@ -1,34 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react"
+import SearchBar from "./components/SearchBar/SearchBar"
+import SearchResults from "./components/SearchResults/SearchResults"
+import { TrackType, sampleArtistData } from "./data/exampleData";
+import PlayList from "./components/PlayList/PlayList";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [searchResults, setSearchResults] = useState<TrackType[]>([...sampleArtistData]);
+  const [playlist, setPlaylist] = useState<TrackType[]>([]);
+  const[query, setQuery] = useState('');
+  
+  // functions
+
+  // setSearchResults based on api and query
+  
+  const handleSearch = (e: any) => setQuery(e.target.value);
+  
+  const addPlaylistTrack = (id: number) => {
+    let newPlaylistTracks: any[] = []
+    const songToAdd = searchResults.find(song => song.id === id);
+    newPlaylistTracks.push(songToAdd)
+
+    setPlaylist(prevPlaylist => {
+      if(prevPlaylist.find(song => song.id === id)) {
+        return [ ...prevPlaylist ]
+      } else {
+        return [ ...prevPlaylist, ...newPlaylistTracks ]
+      }
+    })
+  }
+
+  const deletePlaylistTrack = (id: number) => {
+    setPlaylist(prevPlaylist => {
+      return prevPlaylist.filter(song => song.id !== id);
+    })
+
+  }
+  
+  const clearPlaylist = () => setPlaylist([]);
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="front_page">
+      <SearchBar query={query} handleSearch={handleSearch}/>
+      <div className="results_and_playlist">
+        {query && <SearchResults searchResults={searchResults} addTrack={addPlaylistTrack} />}
+        {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist}/>}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>  
   )
 }
 
