@@ -7,6 +7,7 @@ import useAuth from "../../hooks/useAuth";
 import { Container } from "react-bootstrap";
 import axios from "../../api/axios";
 import { v4 as uuidv4 } from 'uuid'
+import SongPlayer from "../SongPlayer/SongPlayer";
 
 
 const MainPage: FC<{ code: string | null }> = ({ code }) => {
@@ -14,7 +15,9 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
 
   const [searchResults, setSearchResults] = useState<TrackType[]>([]);
   const [playlist, setPlaylist] = useState<TrackType[]>([]);
-  const[query, setQuery] = useState('');
+  const [query, setQuery] = useState('');
+  const [currentPlayingSongUri, setCurrentPlayingSongUri] = useState<string | null>(null);
+
 
   // search call
   useEffect(() => {
@@ -99,17 +102,22 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
   
   const clearPlaylist = () => setPlaylist([]);
 
+  const selectTrackToPlay = (track: string) => {
+    setCurrentPlayingSongUri(track)
+  }
+
 
   return (
     <Container className="d-flex flex-column py-2">
       <SearchBar query={query} handleSearch={handleSearch}/>
       <div className="results_and_playlist">
 
-        {query && <SearchResults searchResults={searchResults} addTrack={addPlaylistTrack} />}
+        {query && <SearchResults searchResults={searchResults} addTrack={addPlaylistTrack} selectTrackToPlay={selectTrackToPlay}/>}
 
         {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist} makePlaylist={makePlaylist}/>}
 
       </div>
+      {accessToken && <SongPlayer accessToken={accessToken} trackUri={currentPlayingSongUri}/>}
     </Container>  
   )
 }
