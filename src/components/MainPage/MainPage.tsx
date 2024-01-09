@@ -1,29 +1,28 @@
 import { useState, useEffect, FC } from "react"
 import SearchBar from "../SearchBar/SearchBar"
 import SearchResults from "../SearchResults/SearchResults"
-import { TrackType, sampleArtistData } from "../../data/exampleData";
+import { TrackType } from "../../types/types";
 import PlayList from "../PlayList/PlayList";
-import Spotify from "../../data/auth_and_api_calls";
+import useAuth from "../../hooks/useAuth";
+import { Container } from "react-bootstrap";
 
 const MainPage: FC<{ code: string | null }> = ({ code }) => {
-  const [searchResults, setSearchResults] = useState<TrackType[]>([...sampleArtistData]);
+  const accessToken = useAuth(code)
+
+  const [searchResults, setSearchResults] = useState<TrackType[]>([]);
   const [playlist, setPlaylist] = useState<TrackType[]>([]);
   const[query, setQuery] = useState('');
 
-  // useEffect(() => {
-  //   async function getAccessToken(code: any) {
-  //     const res = await fetch('')
-  //   }
-  // }, [])
+  useEffect(() => {
+    window.history.pushState({}, '', '/');
+  }, [])
 
-  // window.
   
   const handleSearch = (e: any) => {
-    Spotify.getAccessToken(code)
     setQuery(e.target.value)
   };
   
-  const addPlaylistTrack = (id: number) => {
+  const addPlaylistTrack = (id: string) => {
     let newPlaylistTracks: any[] = []
     const songToAdd = searchResults.find(song => song.id === id);
     newPlaylistTracks.push(songToAdd)
@@ -37,7 +36,7 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
     })
   }
 
-  const deletePlaylistTrack = (id: number) => {
+  const deletePlaylistTrack = (id: string) => {
     setPlaylist(prevPlaylist => {
       return prevPlaylist.filter(song => song.id !== id);
     })
@@ -48,14 +47,13 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
 
 
   return (
-    <div className="front_page">
+    <Container className="d-flex flex-column py-2">
       <SearchBar query={query} handleSearch={handleSearch}/>
       <div className="results_and_playlist">
         {query && <SearchResults searchResults={searchResults} addTrack={addPlaylistTrack} />}
         {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist}/>}
       </div>
-      {/* player */}
-    </div>  
+    </Container>  
   )
 }
 

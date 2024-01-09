@@ -1,8 +1,10 @@
-import Spotify from "../../data/auth_and_api_calls"
 
 const LoginBtn = () => {
+
   return (
-    <button onClick={() => Spotify.initialAuth()}>Login with Spotify</button>
+    <button>
+      <a href="http://localhost:5000/auth/login">Login to Spotify</a>
+    </button>
   )
 } 
 

@@ -1,8 +1,8 @@
-import { TrackType } from "../../data/exampleData";
+import { TrackType } from "../../types/types";
 import Track from "../Track/Track"
 import { FC } from 'react';
 
-const SearchResults: FC<{ searchResults: TrackType[], addTrack: (id: number) => void }> = ({ searchResults, addTrack }) => {
+const SearchResults: FC<{ searchResults: TrackType[], addTrack: (id: string) => void }> = ({ searchResults, addTrack }) => {
   
   return (
     <div>

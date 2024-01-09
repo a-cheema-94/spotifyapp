@@ -1,9 +1,9 @@
 import { FC, useState } from 'react';
-import { TrackType } from '../../data/exampleData';
+import { TrackType } from '../../types/types';
 import Track from '../Track/Track';
 
 
-const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: number) => void, clearPlaylist: () => void }> = ({ playlist, deleteTrack, clearPlaylist }) => {
+const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, clearPlaylist: () => void }> = ({ playlist, deleteTrack, clearPlaylist }) => {
   const [playlistName, setPlaylistName] = useState('');
   const [confirmPlaylistName, setConfirmPlaylistName] = useState(false);
 

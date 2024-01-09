@@ -1,14 +1,14 @@
 import { FC } from 'react';
-import { TrackType } from "../../data/exampleData"
+import { TrackType } from '../../types/types';
 
 const Track = (song: TrackType) => {
-  const { name, artist, album } = song;
+  const { name, artist, albumArt, uri, id } = song;
 
   return (
     <div className="track_container">
       <div className="name">{name}</div>
       <div className="name">{artist}</div>
-      <div className="name">{album}</div>
+      <div className="name">{albumArt}</div>
     </div>
   )
 }
