@@ -104,7 +104,25 @@ app.post('/auth/refresh', (req, res) => {
     })
 })
 
-app.post('/search', (req, res) => {})
+app.post('/search', (req, res) => {
+  const { query, accessToken } = req.body;
+
+  axios({
+    method: 'get',
+    url: `https://api.spotify.com/v1/search?q=${query}&type=track`,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+  .then(data => {
+    console.log('successful search')
+    res.send(data.data.tracks.items)
+  })
+  .catch(err => {
+    console.log(err)
+    console.log('unsuccessful search')
+  })
+})
 app.post('/playlist', (req, res) => {})
 
 

@@ -8,7 +8,7 @@ const Track = (song: TrackType) => {
     <div className="track_container">
       <div className="name">{name}</div>
       <div className="name">{artist}</div>
-      <div className="name">{albumArt}</div>
+      {/* <div className="name">{albumArt}</div> */}
     </div>
   )
 }
