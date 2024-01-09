@@ -16,6 +16,7 @@ const useAuth = (code: string | null) => {
         code,
        })
       .then(res => {
+        window.history.pushState({}, '', '/');
         console.log('received access token res')
         setAccessToken(res.data.access_token)
         setRefreshToken(res.data.refresh_token)

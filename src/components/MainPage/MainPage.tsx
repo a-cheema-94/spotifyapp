@@ -56,7 +56,19 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
   }, [query, accessToken])
 
   // playlist call function
-  
+  const makePlaylist = (playlistName: string) => {
+    console.log('Added playlist to spotify')
+    // make post req to server at /playlist endpoint sending playlistName and songsToAdd
+    const songsToAdd = playlist.map(song => song.uri);
+
+    axios.post('/playlist', {
+      playlistName,
+      songsToAdd,
+      accessToken,
+    })
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+  }
   
   // functions
 
@@ -95,7 +107,7 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
 
         {query && <SearchResults searchResults={searchResults} addTrack={addPlaylistTrack} />}
 
-        {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist}/>}
+        {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist} makePlaylist={makePlaylist}/>}
 
       </div>
     </Container>  

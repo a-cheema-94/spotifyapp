@@ -3,7 +3,7 @@ import { TrackType } from '../../types/types';
 import Track from '../Track/Track';
 
 
-const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, clearPlaylist: () => void }> = ({ playlist, deleteTrack, clearPlaylist }) => {
+const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, clearPlaylist: () => void, makePlaylist: (playlistName: string) => void  }> = ({ playlist, deleteTrack, clearPlaylist, makePlaylist }) => {
   const [playlistName, setPlaylistName] = useState('');
   const [confirmPlaylistName, setConfirmPlaylistName] = useState(false);
 
@@ -11,6 +11,13 @@ const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, c
     if(playlistName) {
       setConfirmPlaylistName(true)
     }
+  }
+
+  const postPlaylistOnSpotify = () => {
+    clearPlaylist()
+    setPlaylistName('')
+    setConfirmPlaylistName(false)
+    makePlaylist(playlistName)
   }
 
   return (
@@ -32,7 +39,7 @@ const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, c
         </div>
       ))}
 
-      <button>Add to Spotify</button>
+      <button onClick={postPlaylistOnSpotify}>Add to Spotify</button>
       <button onClick={() => clearPlaylist()}>Clear Playlist</button>
     </div>
   )

@@ -123,7 +123,89 @@ app.post('/search', (req, res) => {
     console.log('unsuccessful search')
   })
 })
-app.post('/playlist', (req, res) => {})
+
+app.post('/playlist', (req, res) => {
+  const { playlistName, songsToAdd, accessToken } = req.body;
+  console.log(playlistName)
+  console.log(songsToAdd)
+  
+  // Chained calls
+  // functions
+  const getUserId = () => {
+    return new Promise((resolve, reject) => {
+      // request.then(res => { return res.userId })
+      axios({
+        method: 'get',
+        url: "https://api.spotify.com/v1/me",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }).then(res => {
+        const userId = res.data.id;
+        return userId;
+      }).then(data => {
+        resolve(data)
+      }).catch(err => {
+        reject(err)
+      })
+    });
+  }
+  const createPlaylist = (userId) => {
+    return new Promise((resolve, reject) => {
+      // request.then(res => { return res.playlistId })
+      axios({
+        method: 'post',
+        url: `https://api.spotify.com/v1/users/${userId}/playlists`,
+        data: {
+          "name": playlistName
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }).then(res => {
+        const playlistId = res.data.id;
+        return playlistId;
+      }).then(data => {
+        resolve(data)
+      }).catch(err => {
+        reject(err)
+      })
+    });
+  }
+  const addTracksToPlaylist = (playlistId) => {
+    return new Promise((resolve, reject) => {
+      // request.then(res => { return res.data.snapshot_id })
+      axios({
+        method: 'post',
+        url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+        data: {
+          "uris": songsToAdd
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }).then(res => {
+        console.log(res)
+        console.log('created new spotify playlist and added tracks successfully')
+      }).then(data => {
+        resolve(data)
+      }).catch(err => {
+        reject(err)
+      })
+    });
+  }
+
+  getUserId().then(userID => {
+    return createPlaylist(userID);
+  }).then(playlistID => {
+    return addTracksToPlaylist(playlistID)
+  }).catch(err => {
+    console.log(err)
+    console.log('unsuccessfully added tracks')
+  })
+
+  res.send('confirmation message')
+})
 
 
 app.listen(port, () => {
