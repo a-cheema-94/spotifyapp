@@ -60,17 +60,23 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
 
   // playlist call function
   const makePlaylist = (playlistName: string) => {
-    console.log('Added playlist to spotify')
     // make post req to server at /playlist endpoint sending playlistName and songsToAdd
     const songsToAdd = playlist.map(song => song.uri);
 
-    axios.post('/playlist', {
-      playlistName,
-      songsToAdd,
-      accessToken,
-    })
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
+    const addPlaylistToSpotify = async () => {
+      try {
+        const res = axios.post('/playlist', {
+          playlistName,
+          songsToAdd,
+          accessToken,
+        })
+        console.log(res)
+      } catch(error) {
+        console.log(error)
+      }
+    }
+    addPlaylistToSpotify()
+    console.log('Added playlist to spotify')
   }
   
   // functions

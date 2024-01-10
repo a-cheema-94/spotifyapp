@@ -10,20 +10,34 @@ const useAuth = (code: string | null) => {
 
   // accessToken
   useEffect(() => {
-    const getToken = () => {
-      if(!code) return
-      axios.post('/auth/token', { 
-        code,
-       })
-      .then(res => {
+    if(!code) return
+    const getToken = async () => {
+      try {
+        const res = await axios.post('/auth/token', { 
+          code,
+         })
+         
         window.history.pushState({}, '', '/');
         console.log('received access token res')
         setAccessToken(res.data.access_token)
         setRefreshToken(res.data.refresh_token)
         setExpiresIn(res.data.expires_in)
+      } catch (error) {
+        console.log(error)
+      }
+
+      // axios.post('/auth/token', { 
+      //   code,
+      //  })
+      // .then(res => {
+      //   window.history.pushState({}, '', '/');
+      //   console.log('received access token res')
+      //   setAccessToken(res.data.access_token)
+      //   setRefreshToken(res.data.refresh_token)
+      //   setExpiresIn(res.data.expires_in)
         
-      })
-      .catch(err => console.log('Front end error: ', err))
+      // })
+      // .catch(err => console.log('Front end error: ', err))
     }
     if(!stopMultipleCallsRef.current) {
       stopMultipleCallsRef.current = true
@@ -35,19 +49,31 @@ const useAuth = (code: string | null) => {
   useEffect(() => {
     if(!refreshToken || !expiresIn) return
 
-    const interval = setInterval(() => {
-
-      
-      axios.post('/auth/refresh', {
-        refreshToken,
-      })
-      .then(res => {
+    const requestRefreshToken = async () => {
+      try {
+        const res = await axios.post('/auth/refresh', {
+          refreshToken,
+        })
         console.log('refreshed token')
         setAccessToken(res.data.access_token);
         setExpiresIn(res.data.expires_in);
+      } catch (error) {
+        console.log('Front end error: ', error)
+      }
+      
+    }
+    const interval = setInterval(() => {
+      requestRefreshToken()
+      // axios.post('/auth/refresh', {
+      //   refreshToken,
+      // })
+      // .then(res => {
+      //   console.log('refreshed token')
+      //   setAccessToken(res.data.access_token);
+      //   setExpiresIn(res.data.expires_in);
         
-      })
-      .catch((err) => console.log('Front end error: ', err))
+      // })
+      // .catch((err) => console.log('Front end error: ', err))
       
     }, (expiresIn / 2) * 1000)
 
