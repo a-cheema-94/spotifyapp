@@ -112,18 +112,34 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
     setCurrentPlayingSongUri(track)
   }
 
+  // style={{ width: '60dvw', minHeight: '50vh', }}
 
   return (
-    <Container className="d-flex flex-column py-2">
-      <SearchBar query={query} handleSearch={handleSearch}/>
-      <div className="results_and_playlist">
+    <Container
+      style={{
+        minHeight: '100dvh', minWidth: '100dvw', overflowX: 'hidden', backgroundImage: 'url(../../../images/background_5.jpg)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
+      }}
+      className="d-flex justify-content-center align-items-center"
+    >
+      <div className="d-flex flex-column py-2 justify-content-between"
+        style={{
+          width: '50dvw',
+          height: '80dvh',
+        }}
+      >
 
-        {query && <SearchResults searchResults={searchResults} addTrack={addPlaylistTrack} selectTrackToPlay={selectTrackToPlay}/>}
+        <SearchBar query={query} handleSearch={handleSearch}/>
 
-        {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist} makePlaylist={makePlaylist}/>}
+        <div className="d-flex justify-content-between py-4">
+          {query && <SearchResults searchResults={searchResults} addTrack={addPlaylistTrack} selectTrackToPlay={selectTrackToPlay}/>}
+
+          {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist} makePlaylist={makePlaylist}/>}
+        </div>
+
+        {accessToken && <SongPlayer accessToken={accessToken} trackUri={currentPlayingSongUri}/>}
 
       </div>
-      {accessToken && <SongPlayer accessToken={accessToken} trackUri={currentPlayingSongUri}/>}
+
     </Container>  
   )
 }

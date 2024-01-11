@@ -1,14 +1,21 @@
-.front_page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  row-gap: 2rem;
-  /* background-image: url(../images/background_4.jpg); */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+
+:root {
+  --primary-color: #0b8540;
+  --green-border-color: #69e793;
+} 
+
+.main-color {
+  background-color: var(--primary-color);
 }
 
-.results_and_playlist {
-  display: flex;
-  gap: 3rem;
+.border-dark-green {
+  border-color: var(--green-border-color);
 }
+
+
+/* hex colors */
+
+/* 1feb77 */
+/* c6cfcd */
+/* 21d770 */

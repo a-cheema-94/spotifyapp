@@ -15,7 +15,7 @@ function App() {
   
   return (
 
-    <div className="login_page">
+    <div className="">
       {code ? <MainPage code={code}/> : <LoginBtn/>}
     </div>  
   )

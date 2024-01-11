@@ -21,7 +21,13 @@ const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, c
   }
 
   return (
-    <div className='playlist_container'>
+    <div className='w-50 p-3'
+      style={{
+        maxHeight: '60dvh',
+        overflowY: "scroll",
+        overflowX: 'hidden',
+      }}
+    >
       {!confirmPlaylistName ? 
       <div className="enter_playlist_name">
         <div>

@@ -5,9 +5,14 @@ import { FC } from 'react';
 const SearchResults: FC<{ searchResults: TrackType[], addTrack: (id: string) => void, selectTrackToPlay: (track: string) => void }> = ({ searchResults, addTrack, selectTrackToPlay }) => {
   
   return (
-    <div>
+    <div className="w-75 p-2"
+      style={{
+        maxHeight: '60dvh',
+        overflowY: "scroll"
+      }}
+    >
       {searchResults.map((song) => (
-        <div key={song.id} className="search_result" onClick={()=> selectTrackToPlay(song.uri)}>
+        <div key={song.id} onClick={()=> selectTrackToPlay(song.uri)}>
           <Track {...song} />
           <button title="add to playlist" onClick={() => addTrack(song.id)}>+</button>
         </div>

@@ -5,9 +5,9 @@ const Track = (song: TrackType) => {
   const { name, artist, albumArt, uri, id } = song;
 
   return (
-    <div className="track_container">
-      <div className="name">{name}</div>
-      <div className="name">{artist}</div>
+    <div className="">
+      <div className="">{name}</div>
+      <div className="">{artist}</div>
       {/* <div className="name">{albumArt}</div> */}
     </div>
   )

@@ -1,16 +1,13 @@
 import { FC } from 'react';
+import './SearchBar.css'
+import { Form } from 'react-bootstrap';
 
 type HandleSearch = (e: any) => void
 
 const SearchBar: FC<{ query: string, handleSearch: HandleSearch }> = ({ query, handleSearch }) => {
 
   return (
-    <div className="search">
-      <input type="text" name="search" placeholder="search..." value={query} onChange={handleSearch}/>
-      <button>
-        search icon
-      </button>
-    </div>
+      <input className='form-control search border-2' type="text" placeholder="search for songs..." value={query} onChange={handleSearch}/>
   )
 }
 
