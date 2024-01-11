@@ -1,0 +1,20 @@
+.search-result {
+  cursor: pointer;
+  padding-right: 20px;
+}
+
+.search-result:hover {
+  background-color: var(--track-background-color);
+  transform: scale(1.05);
+  
+}
+
+.add-button {
+  border-radius: 50%;
+}
+
+.add-button:hover {
+  background-color: rgb(65, 190, 65);
+  /* color: white; */
+  transform: scale(1.1);
+}

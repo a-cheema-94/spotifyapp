@@ -21,7 +21,7 @@ const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, c
   }
 
   return (
-    <div className='w-50 p-3'
+    <div className='w-100 p-3'
       style={{
         maxHeight: '60dvh',
         overflowY: "scroll",
