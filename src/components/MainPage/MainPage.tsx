@@ -113,13 +113,13 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
   }
 
   // style={{ width: '60dvw', minHeight: '50vh', }}
-
+  
   return (
     <Container
+      className="center-flex-container main-pages-sizing pb-5"
       style={{
-        minHeight: '100dvh', minWidth: '100dvw', overflowX: 'hidden', backgroundImage: 'url(../../../images/background_5.jpg)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
+         overflowX: 'hidden', backgroundImage: 'url(../../../images/background_5.jpg)',
       }}
-      className="d-flex justify-content-center align-items-center"
     >
       <div className="d-flex flex-column py-2 justify-content-between"
         style={{
@@ -130,7 +130,7 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
 
         <SearchBar query={query} handleSearch={handleSearch}/>
 
-        <div className="d-flex justify-content-between py-4">
+        <div className="search-and-playlist py-4">
           {query && <SearchResults searchResults={searchResults} addTrack={addPlaylistTrack} selectTrackToPlay={selectTrackToPlay}/>}
 
           {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist} makePlaylist={makePlaylist}/>}
@@ -140,7 +140,7 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
 
       </div>
 
-    </Container>  
+    </Container>
   )
 }
 

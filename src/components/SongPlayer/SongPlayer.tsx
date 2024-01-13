@@ -8,17 +8,28 @@ const SongPlayer: FC<{ accessToken: string, trackUri: string | null }> = ({ acce
   useEffect(() => setPlayTrack(true), [trackUri]);
 
   return (
-    <>
-      {/* <h1>song player</h1> */}
+    <div className="player w-100 h-100">
       <SpotifyPlayer 
         token={accessToken}
         uris={trackUri ? [trackUri] : []}
         // if we selected a valid spotify track which will pass our uri inside this component then we set uris to an array with the uri inside otherwise we give an empty array so no tracks are played.
         play={playTrack}
         callback={(state) => !state.isPlaying && setPlayTrack(false)}
+        layout="responsive"
+        inlineVolume={true}
+        magnifySliderOnHover={true}
+        hideAttribution={true}
+        styles={{
+          bgColor: '#fffdd0',
+          color: '#000',
+          loaderColor: '#000',
+          sliderColor: '#6515eb',
+          trackNameColor: '#000',
+          sliderTrackBorderRadius: '30%'
+        }}
 
       />
-    </>
+    </div>
   )
 }
 

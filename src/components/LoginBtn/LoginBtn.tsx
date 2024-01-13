@@ -4,9 +4,9 @@ const LoginBtn = () => {
 
   return (
     <Container 
-      className="d-flex justify-content-center align-items-center" 
+      className="center-flex-container main-pages-sizing" 
       style={{ 
-        minHeight: '100dvh', minWidth: '100dvw', backgroundImage: 'url(../../../images/layered-waves-haikei.svg)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', fontFamily: 'Inter, sans-serif',
+       backgroundImage: 'url(../../../images/layered-waves-haikei.svg)', fontFamily: 'Inter, sans-serif',
       }}
     >
       <button className="btn border-2 btn-success" style={{ width: '12rem', height: '3.5rem',}}>

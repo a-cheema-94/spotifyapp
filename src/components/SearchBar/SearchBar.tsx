@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import './SearchBar.css'
 import { Form } from 'react-bootstrap';
 
 type HandleSearch = (e: any) => void

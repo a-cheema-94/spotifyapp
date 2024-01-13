@@ -4,8 +4,11 @@
   --primary-color: #0b8540;
   --green-border-color: #69e793;
   --track-background-color: #fffdd0;
+  --action-confirm-color: rgb(65, 190, 65);
+  --action-deny-color: rgb(228, 59, 17);
 } 
 
+/* COLOR CLASSES */
 .main-color {
   background-color: var(--primary-color);
 }
@@ -14,9 +17,142 @@
   border-color: var(--green-border-color);
 }
 
+/* SONG PLAYER */
+.player {
+  border: 0.6rem solid var(--track-background-color);
+  border-radius: 20px;
+  background-color: var(--track-background-color);
+  max-height: 100px;
+}
 
-/* hex colors */
+/* SEARCH AND PLAYLIST UI */
+.search-and-playlist {
+  display: flex;
+  justify-content: space-between;
+  
+}
 
-/* 1feb77 */
-/* c6cfcd */
-/* 21d770 */
+@media (max-width: 992px) {
+  .search-and-playlist {
+    flex-direction: column;
+  }
+
+  .player {
+    max-height: 200px;
+  }
+ }
+
+ /* set icon as background image of search field */
+.search {
+  background: url('../../../images/search.svg') no-repeat  97%;
+  background-color: var(--track-background-color);
+}
+/* when we search for songs background image disappear */
+input[type=text]:not(:placeholder-shown) {
+  background-image: none;
+}
+
+.search-result {
+  cursor: pointer;
+  padding-right: 20px;
+  border-radius: 5px;
+}
+
+.search-result:hover {
+  background-color: var(--track-background-color);
+  transform: scale(1.05);
+  
+}
+
+.icon-button {
+  border-radius: 50%;
+}
+
+.add-button:hover {
+  background-color: rgb(65, 190, 65);
+  /* color: white; */
+  transform: scale(1.1);
+}
+
+.minus-button:hover {
+  background-color: rgb(228, 59, 17);
+  /* color: white; */
+  transform: scale(1.1);
+}
+
+
+/* BUTTONS */
+
+.playlist-button {
+  width: 75%;
+  align-self: center;
+  box-shadow: 7px 7px 5px -4px rgba(46,46,46,0.53);
+}
+
+.confirm-button {
+  background-color: var(--action-confirm-color);
+}
+
+.deny-button {
+  background-color: var(--action-deny-color);
+}
+
+.deny-button, .confirm-button {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.confirm-button:hover {
+  background-color: rgb(39, 100, 39);
+  color: #fffdd0;
+}
+
+.deny-button:hover {
+  background-color: rgb(136, 39, 15);
+  color: #fffdd0;
+}
+
+/* UTILITIES */
+.center-flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-pages-sizing {
+  min-height: 100dvh;
+  min-width: 100dvw;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.search-and-playlist-sizing {
+  width: 100%;
+  max-height: 60dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--track-background-color); 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #c2c2c2; 
+}

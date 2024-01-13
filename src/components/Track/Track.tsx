@@ -5,10 +5,10 @@ const Track = (song: TrackType) => {
   const { name, artist, albumArt, uri, id } = song;
 
   return (
-    <div className="d-flex align-items-center gap-2">
+    <div className="d-flex align-items-center gap-2 p-2">
       <img src={albumArt} alt="" />
 
-      <div className="">
+      <div>
         <div className="h6">{name}</div>
         <div className="text-body-secondary">{artist}</div>
       </div>
