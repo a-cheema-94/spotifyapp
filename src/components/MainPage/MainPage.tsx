@@ -16,7 +16,7 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
   const [searchResults, setSearchResults] = useState<TrackType[]>([]);
   const [playlist, setPlaylist] = useState<TrackType[]>([]);
   const [query, setQuery] = useState('');
-  const [currentPlayingSongUri, setCurrentPlayingSongUri] = useState<string | null>(null);
+  const [currentPlayingSongUri, setCurrentPlayingSongUri] = useState<string[] | null>(null);
 
 
   // search call
@@ -109,10 +109,14 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
   const clearPlaylist = () => setPlaylist([]);
 
   const selectTrackToPlay = (track: string) => {
-    setCurrentPlayingSongUri(track)
+    setCurrentPlayingSongUri([track])
   }
 
-  // style={{ width: '60dvw', minHeight: '50vh', }}
+  const playWholePlaylist = () => {
+    let queuedPlaylist = playlist.map(song => song.uri);
+    setCurrentPlayingSongUri(queuedPlaylist)
+  }
+
   
   return (
     <Container
@@ -133,10 +137,10 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
         <div className="search-and-playlist py-4">
           {query && <SearchResults searchResults={searchResults} addTrack={addPlaylistTrack} selectTrackToPlay={selectTrackToPlay}/>}
 
-          {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist} makePlaylist={makePlaylist}/>}
+          {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist} makePlaylist={makePlaylist} selectTrackToPlay={selectTrackToPlay} playWholePlaylist={playWholePlaylist}/>}
         </div>
 
-        {accessToken && <SongPlayer accessToken={accessToken} trackUri={currentPlayingSongUri}/>}
+        {accessToken && <SongPlayer accessToken={accessToken} trackUri={currentPlayingSongUri} />}
 
       </div>
 

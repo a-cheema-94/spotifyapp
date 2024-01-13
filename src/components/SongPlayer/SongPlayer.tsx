@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react"
 import  SpotifyPlayer  from "react-spotify-web-playback"
 import { TrackType } from "../../types/types"
 
-const SongPlayer: FC<{ accessToken: string, trackUri: string | null }> = ({ accessToken, trackUri }) => {
+const SongPlayer: FC<{ accessToken: string, trackUri: string[] | null }> = ({ accessToken, trackUri }) => {
   const [playTrack, setPlayTrack] = useState(false);
 
   useEffect(() => setPlayTrack(true), [trackUri]);
@@ -11,7 +11,7 @@ const SongPlayer: FC<{ accessToken: string, trackUri: string | null }> = ({ acce
     <div className="player w-100 h-100">
       <SpotifyPlayer 
         token={accessToken}
-        uris={trackUri ? [trackUri] : []}
+        uris={trackUri ? trackUri : []}
         // if we selected a valid spotify track which will pass our uri inside this component then we set uris to an array with the uri inside otherwise we give an empty array so no tracks are played.
         play={playTrack}
         callback={(state) => !state.isPlaying && setPlayTrack(false)}

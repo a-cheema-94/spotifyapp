@@ -3,7 +3,7 @@ import { TrackType } from '../../types/types';
 import Track from '../Track/Track';
 
 
-const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, clearPlaylist: () => void, makePlaylist: (playlistName: string) => void  }> = ({ playlist, deleteTrack, clearPlaylist, makePlaylist }) => {
+const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, clearPlaylist: () => void, makePlaylist: (playlistName: string) => void, selectTrackToPlay: (track: string) => void, playWholePlaylist: () => void  }> = ({ playlist, deleteTrack, clearPlaylist, makePlaylist, selectTrackToPlay, playWholePlaylist }) => {
   const [playlistName, setPlaylistName] = useState('');
   const [confirmPlaylistName, setConfirmPlaylistName] = useState(false);
 
@@ -31,12 +31,28 @@ const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, c
 
         <button className='w-50 btn confirm-button playlist-button' onClick={handlePlaylistName}>Confirm</button>
 
-      </div> : 
-        <h1 className='mb-3 display-5'>{playlistName}</h1>
+      </div> :
+        <div className='d-flex align-items-center justify-content-between mx-2'>
+          <h1 className='mb-3 display-5'>{playlistName}</h1>
+          {playlist.length > 1 && 
+          <div
+            role='button'
+            title='play all songs'
+            onClick={() => playWholePlaylist()}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#fffdd0" className="bi bi-collection-play-fill" viewBox="0 0 16 16">
+              <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 12V7a.5.5 0 0 1 .258-.437"/>
+            </svg>
+          </div>}
+        </div>
       }
 
       {playlist?.map((song) => (
-        <div key={song.id} className="d-flex justify-content-between align-items-center mt-2 search-result">
+        <div 
+          key={song.id} 
+          className="d-flex justify-content-between align-items-center mt-2 search-result"
+          onClick={() => selectTrackToPlay(song.uri)}
+        >
           <Track {...song}/>
           <div 
             title='remove from playlist'
