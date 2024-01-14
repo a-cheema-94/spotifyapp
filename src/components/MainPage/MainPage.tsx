@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react"
+import { useState, useEffect, FC, useRef } from "react"
 import SearchBar from "../SearchBar/SearchBar"
 import SearchResults from "../SearchResults/SearchResults"
 import { TrackType } from "../../types/types";
@@ -17,6 +17,7 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
   const [playlist, setPlaylist] = useState<TrackType[]>([]);
   const [query, setQuery] = useState('');
   const [currentPlayingSongUri, setCurrentPlayingSongUri] = useState<string[] | null>(null);
+  const [theme, setTheme] = useState<string>('green');
 
 
   // search call
@@ -117,14 +118,26 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
     setCurrentPlayingSongUri(queuedPlaylist)
   }
 
+  const chooseTheme = (color: string) => {
+    setTheme(color)
+  }
+
   
   return (
     <Container
-      className="center-flex-container main-pages-sizing pb-5"
+      className="center-flex-container main-pages-sizing pb-5 position-relative"
       style={{
-         overflowX: 'hidden', backgroundImage: 'url(../../../images/background_5.jpg)',
+         overflowX: 'hidden', backgroundImage: `url(../../../images/${theme}.svg)`,
       }}
     >
+      {/* themes */}
+      <div className="position-absolute top-0 end-0 d-flex gap-2 mt-3" style={{ paddingRight: '2rem', }}>
+        <button className="theme-button green-theme-button" onClick={() => chooseTheme('green')}></button>
+        <button className="theme-button purple-theme-button" onClick={() => chooseTheme('purple')}></button>
+        <button className="theme-button blue-theme-button" onClick={() => chooseTheme('blue')}></button>
+        <button className="theme-button red-theme-button" onClick={() => chooseTheme('red')}></button>
+      </div>
+      
       <div className="d-flex flex-column py-2 justify-content-between"
         style={{
           width: '50dvw',

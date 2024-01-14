@@ -37,7 +37,7 @@ const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, c
           {playlist.length > 1 && 
           <div
             role='button'
-            title='play all songs'
+            title='play whole playlist'
             onClick={() => playWholePlaylist()}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#fffdd0" className="bi bi-collection-play-fill" viewBox="0 0 16 16">

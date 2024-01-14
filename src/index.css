@@ -112,6 +112,21 @@ input[type=text]:not(:placeholder-shown) {
   color: #fffdd0;
 }
 
+/* theme buttons */
+
+.theme-button {
+  border: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  box-shadow: 7px 9px 25px -8px rgba(0,0,0,0.75);
+  
+}
+.green-theme-button { background-color: rgb(0, 167, 0); }
+.purple-theme-button { background-color: rgb(182, 71, 158); }
+.blue-theme-button { background-color: rgb(96, 107, 202); }
+.red-theme-button { background-color: #d35151; }
+
 /* UTILITIES */
 .center-flex-container {
   display: flex;
