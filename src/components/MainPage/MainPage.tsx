@@ -1,4 +1,4 @@
-import { useState, useEffect, FC, useRef } from "react"
+import { useState, useEffect, FC } from "react"
 import SearchBar from "../SearchBar/SearchBar"
 import SearchResults from "../SearchResults/SearchResults"
 import { TrackType } from "../../types/types";
@@ -133,7 +133,10 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
     <Container
       className="center-flex-container main-pages-sizing pb-5 position-relative"
       style={{
-         overflowX: 'hidden', backgroundImage: `url(../../../images/${theme}.svg)`,
+        overflowX: 'hidden',
+        backgroundImage: `url(../../../images/${theme}.svg)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
       }}
     >
       {/* themes */}
