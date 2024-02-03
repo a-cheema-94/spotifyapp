@@ -2,8 +2,17 @@ import { FC, useState } from 'react';
 import { TrackType } from '../../types/types';
 import Track from '../Track/Track';
 
+type PlaylistType = {
+  playlist: TrackType[], 
+  deleteTrack: (id: string) => void, 
+  clearPlaylist: () => void, 
+  makePlaylist: (playlistName: string) => void, 
+  selectTrackToPlay: (track: TrackType) => void, 
+  playWholePlaylist: () => void, 
+  togglePlayBtn: TrackType | TrackType[] | null
+}
 
-const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, clearPlaylist: () => void, makePlaylist: (playlistName: string) => void, selectTrackToPlay: (track: TrackType) => void, playWholePlaylist: () => void, togglePlayBtn: TrackType | null  }> = ({ playlist, deleteTrack, clearPlaylist, makePlaylist, selectTrackToPlay, playWholePlaylist, togglePlayBtn }) => {
+const PlayList: FC<PlaylistType> = ({ playlist, deleteTrack, clearPlaylist, makePlaylist, selectTrackToPlay, playWholePlaylist, togglePlayBtn }) => {
   const [playlistName, setPlaylistName] = useState('');
   const [confirmPlaylistName, setConfirmPlaylistName] = useState(false);
 
@@ -35,15 +44,31 @@ const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, c
         <div className='d-flex align-items-center justify-content-between mx-2'>
           <h1 className='mb-3 display-5'>{playlistName}</h1>
           {playlist.length > 1 && 
-          <div
-            role='button'
-            title='play whole playlist'
-            onClick={() => playWholePlaylist()}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#fffdd0" className="bi bi-collection-play-fill" viewBox="0 0 16 16">
-              <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 12V7a.5.5 0 0 1 .258-.437"/>
-            </svg>
-          </div>}
+
+          <div className="d-flex gap-4">
+
+            {togglePlayBtn === playlist && 
+            
+            <div aria-label='playing' role='button'>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-broadcast" viewBox="0 0 16 16">
+                <path d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707m2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708m5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708m2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/>
+              </svg>
+            </div>}
+
+            <div
+              role='button'
+              title='play whole playlist'
+              onClick={() => playWholePlaylist()}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#fffdd0" className="bi bi-collection-play-fill" viewBox="0 0 16 16">
+                <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm6.258-6.437a.5.5 0 0 1 .507.013l4 2.5a.5.5 0 0 1 0 .848l-4 2.5A.5.5 0 0 1 6 12V7a.5.5 0 0 1 .258-.437"/>
+              </svg>
+            </div>
+
+
+          </div>
+          
+          }
         </div>
       }
 

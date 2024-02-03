@@ -18,7 +18,7 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
   const [query, setQuery] = useState('');
   const [currentPlayingSongUri, setCurrentPlayingSongUri] = useState<string[] | null>(null);
   const [theme, setTheme] = useState<string>('green');
-  const [selectedSong, setSelectedSong] = useState<TrackType | null>(null);
+  const [selectedSong, setSelectedSong] = useState<TrackType | TrackType[] | null>(null);
   const [showToast, setShowToast] = useState<boolean>(false);
 
 
@@ -122,9 +122,28 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
     setSelectedSong(null)
     let queuedPlaylist = playlist.map(song => song.uri);
     setCurrentPlayingSongUri(queuedPlaylist)
+    setSelectedSong(playlist)
+  }
+
+
+  // dynamically preload images before that particular theme is selected.
+  const preloadImage = (image: string) => {
+
+    // remove all previous preload links so only have one at a time corresponding to the 'active' theme
+    const currentPreloadLinks = document.querySelectorAll('link[rel="preload"]');
+    currentPreloadLinks.forEach(link => link.remove());
+
+    // create link and add to the DOM
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.href = image;
+    link.as = 'image';
+    link.type = 'image/svg+xml'
+    document.head.appendChild(link)
   }
 
   const chooseTheme = (color: string) => {
+    preloadImage(`./images/${color}.svg`)
     setTheme(color)
   }
 

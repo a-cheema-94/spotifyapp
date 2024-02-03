@@ -2,7 +2,7 @@ import { TrackType } from "../../types/types";
 import Track from "../Track/Track"
 import { FC, useState } from 'react';
 
-const SearchResults: FC<{ searchResults: TrackType[], addTrack: (id: string) => void, selectTrackToPlay: (track: TrackType) => void, togglePlayBtn: TrackType | null }> = ({ searchResults, addTrack, selectTrackToPlay, togglePlayBtn }) => {
+const SearchResults: FC<{ searchResults: TrackType[], addTrack: (id: string) => void, selectTrackToPlay: (track: TrackType) => void, togglePlayBtn: TrackType | TrackType[]  | null }> = ({ searchResults, addTrack, selectTrackToPlay, togglePlayBtn }) => {
 
 
   return (
