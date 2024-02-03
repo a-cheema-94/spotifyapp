@@ -8,7 +8,7 @@ const SongPlayer: FC<{ accessToken: string, trackUri: string[] | null }> = ({ ac
   useEffect(() => setPlayTrack(true), [trackUri]);
 
   return (
-    <div className="player w-100 h-100">
+    <div className="player w-100 h-100" data-testid="song-player">
       <SpotifyPlayer 
         token={accessToken}
         uris={trackUri ? trackUri : []}

@@ -3,7 +3,7 @@ import { TrackType } from '../../types/types';
 import Track from '../Track/Track';
 
 
-const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, clearPlaylist: () => void, makePlaylist: (playlistName: string) => void, selectTrackToPlay: (track: string) => void, playWholePlaylist: () => void  }> = ({ playlist, deleteTrack, clearPlaylist, makePlaylist, selectTrackToPlay, playWholePlaylist }) => {
+const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, clearPlaylist: () => void, makePlaylist: (playlistName: string) => void, selectTrackToPlay: (track: TrackType) => void, playWholePlaylist: () => void, togglePlayBtn: TrackType | null  }> = ({ playlist, deleteTrack, clearPlaylist, makePlaylist, selectTrackToPlay, playWholePlaylist, togglePlayBtn }) => {
   const [playlistName, setPlaylistName] = useState('');
   const [confirmPlaylistName, setConfirmPlaylistName] = useState(false);
 
@@ -21,12 +21,12 @@ const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, c
   }
 
   return (
-    <div className='search-and-playlist-sizing'>
+    <div className='search-and-playlist-sizing' data-testid='playlist-container'>
       {!confirmPlaylistName ? 
       <div className="d-flex flex-column gap-3 mb-3">
 
         <div className='gap-2 d-flex flex-column  align-items-center'>
-          <span className='h5'>Enter Playlist Name:</span> <input className='form-control w-50' value={playlistName} onChange={e => setPlaylistName(e.target.value)}/>
+          <label htmlFor='playlist-name' className='h5'>Enter Playlist Name:</label> <input aria-label='playlist-name' className='form-control w-50' value={playlistName} onChange={e => setPlaylistName(e.target.value)}/>
         </div>
 
         <button className='w-50 btn confirm-button playlist-button' onClick={handlePlaylistName}>Confirm</button>
@@ -51,13 +51,16 @@ const PlayList: FC<{ playlist: TrackType[], deleteTrack: (id: string) => void, c
         <div 
           key={song.id} 
           className="d-flex justify-content-between align-items-center mt-2 search-result"
-          onClick={() => selectTrackToPlay(song.uri)}
+          onClick={() => selectTrackToPlay(song)}
+          data-testid='playlist-song'
         >
-          <Track {...song}/>
+          <Track song={song} togglePlayBtn={togglePlayBtn}/>
           <div 
             title='remove from playlist'
             className='center-flex-container minus-button icon-button'
             onClick={() => deleteTrack(song.id)}
+            aria-label='remove from playlist' 
+            role='button'
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-dash-circle" viewBox="0 0 16 16">
               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>

@@ -25,19 +25,6 @@ const useAuth = (code: string | null) => {
       } catch (error) {
         console.log(error)
       }
-
-      // axios.post('/auth/token', { 
-      //   code,
-      //  })
-      // .then(res => {
-      //   window.history.pushState({}, '', '/');
-      //   console.log('received access token res')
-      //   setAccessToken(res.data.access_token)
-      //   setRefreshToken(res.data.refresh_token)
-      //   setExpiresIn(res.data.expires_in)
-        
-      // })
-      // .catch(err => console.log('Front end error: ', err))
     }
     if(!stopMultipleCallsRef.current) {
       stopMultipleCallsRef.current = true
@@ -64,16 +51,6 @@ const useAuth = (code: string | null) => {
     }
     const interval = setInterval(() => {
       requestRefreshToken()
-      // axios.post('/auth/refresh', {
-      //   refreshToken,
-      // })
-      // .then(res => {
-      //   console.log('refreshed token')
-      //   setAccessToken(res.data.access_token);
-      //   setExpiresIn(res.data.expires_in);
-        
-      // })
-      // .catch((err) => console.log('Front end error: ', err))
       
     }, (expiresIn / 2) * 1000)
 

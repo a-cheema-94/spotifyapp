@@ -4,7 +4,7 @@ import SearchResults from "../SearchResults/SearchResults"
 import { TrackType } from "../../types/types";
 import PlayList from "../PlayList/PlayList";
 import useAuth from "../../hooks/useAuth";
-import { Container } from "react-bootstrap";
+import { Container, Toast } from "react-bootstrap";
 import axios from "../../api/axios";
 import { v4 as uuidv4 } from 'uuid'
 import SongPlayer from "../SongPlayer/SongPlayer";
@@ -18,6 +18,8 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
   const [query, setQuery] = useState('');
   const [currentPlayingSongUri, setCurrentPlayingSongUri] = useState<string[] | null>(null);
   const [theme, setTheme] = useState<string>('green');
+  const [selectedSong, setSelectedSong] = useState<TrackType | null>(null);
+  const [showToast, setShowToast] = useState<boolean>(false);
 
 
   // search call
@@ -69,6 +71,7 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
         const res = axios.post('/playlist', {
           playlistName,
           songsToAdd,
+          
           accessToken,
         })
         console.log(res)
@@ -78,6 +81,7 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
     }
     addPlaylistToSpotify()
     console.log('Added playlist to spotify')
+    setShowToast(true)
   }
   
   // functions
@@ -109,11 +113,13 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
   
   const clearPlaylist = () => setPlaylist([]);
 
-  const selectTrackToPlay = (track: string) => {
-    setCurrentPlayingSongUri([track])
+  const selectTrackToPlay = (track: TrackType) => {
+    setSelectedSong(track)
+    setCurrentPlayingSongUri([track.uri])
   }
 
   const playWholePlaylist = () => {
+    setSelectedSong(null)
     let queuedPlaylist = playlist.map(song => song.uri);
     setCurrentPlayingSongUri(queuedPlaylist)
   }
@@ -122,7 +128,7 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
     setTheme(color)
   }
 
-  
+
   return (
     <Container
       className="center-flex-container main-pages-sizing pb-5 position-relative"
@@ -148,14 +154,32 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
         <SearchBar query={query} handleSearch={handleSearch}/>
 
         <div className="search-and-playlist py-4">
-          {query && <SearchResults searchResults={searchResults} addTrack={addPlaylistTrack} selectTrackToPlay={selectTrackToPlay}/>}
+          {query && <SearchResults searchResults={searchResults} addTrack={addPlaylistTrack} selectTrackToPlay={selectTrackToPlay} togglePlayBtn={selectedSong}/>}
 
-          {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist} makePlaylist={makePlaylist} selectTrackToPlay={selectTrackToPlay} playWholePlaylist={playWholePlaylist}/>}
+          {playlist.length > 0 && <PlayList playlist={playlist} deleteTrack={deletePlaylistTrack} clearPlaylist={clearPlaylist} makePlaylist={makePlaylist} selectTrackToPlay={selectTrackToPlay} playWholePlaylist={playWholePlaylist} togglePlayBtn={selectedSong}/>}
         </div>
 
         {accessToken && <SongPlayer accessToken={accessToken} trackUri={currentPlayingSongUri} />}
 
       </div>
+
+      {showToast && 
+        <div 
+          className="position-absolute top-50"
+          style={{
+            width: '20%',
+            right: '2rem',
+          }}
+        >
+          <Toast className="bg-success text-white" onClose={() => setShowToast(false)} delay={3000} autohide>
+            <Toast.Header className="d-flex justify-content-between">
+              <strong className="">Success</strong>
+            </Toast.Header>
+            <Toast.Body>
+              Playlist Created
+            </Toast.Body>
+          </Toast>
+        </div>}
 
     </Container>
   )
