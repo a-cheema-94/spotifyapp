@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from "react"
 import  SpotifyPlayer  from "react-spotify-web-playback"
-import { TrackType } from "../../types/types"
+import { SongPlayerComponentType } from "../../types/types";
 
-const SongPlayer: FC<{ accessToken: string, trackUri: string[] | null }> = ({ accessToken, trackUri }) => {
+const SongPlayer: FC<SongPlayerComponentType> = ({ accessToken, trackUri }) => {
   const [playTrack, setPlayTrack] = useState(false);
 
   useEffect(() => setPlayTrack(true), [trackUri]);

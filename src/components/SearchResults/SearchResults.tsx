@@ -1,8 +1,8 @@
-import { TrackType } from "../../types/types";
+import { SearchResultsComponentType } from "../../types/types";
 import Track from "../Track/Track"
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
-const SearchResults: FC<{ searchResults: TrackType[], addTrack: (id: string) => void, selectTrackToPlay: (track: TrackType) => void, togglePlayBtn: TrackType | TrackType[]  | null }> = ({ searchResults, addTrack, selectTrackToPlay, togglePlayBtn }) => {
+const SearchResults: FC<SearchResultsComponentType> = ({ searchResults, addTrack, selectTrackToPlay, togglePlayBtn }) => {
 
 
   return (

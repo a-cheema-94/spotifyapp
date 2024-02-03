@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw"
 import { setupServer } from 'msw/node'
-import { act, findByText, fireEvent, getByTestId, getByText, render, screen, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import MainPage from '../components/MainPage/MainPage';
 
 
@@ -40,13 +40,12 @@ const server = setupServer(
   )
   
   beforeAll(() => {
-    // Start the interception.
+    // Start the interception of requests.
     server.listen()
   })
   
   afterEach(() => {
     // Remove any handlers you may have added
-    // in individual tests (runtime handlers).
     server.resetHandlers()
   })
   
@@ -74,7 +73,7 @@ const server = setupServer(
 })
 
 
-test('specified playlist is sent to spotify', async () => {
+test('newly created playlist is sent to spotify', async () => {
   render(<MainPage code={'random'} />)
   
   // Search for a song
@@ -138,12 +137,10 @@ test('specified playlist is sent to spotify', async () => {
 
   await waitFor(() => expect(screen.queryByText(/Playlist Created/i)).toBeNull())
   
-  // screen.debug()
-  // expect(1).toEqual(2);
 })
 
 
-test('playlist cleared', async () => {
+test('newly created playlist cleared', async () => {
   render(<MainPage code={'random'} />)
 
   // Search for a song

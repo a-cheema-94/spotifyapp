@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { TrackType } from '../../types/types';
+import { TrackComponentType } from '../../types/types';
 
-const Track: FC<{ song: TrackType, togglePlayBtn: TrackType | TrackType[] | null }> = ({ song, togglePlayBtn }) => {
+const Track: FC<TrackComponentType> = ({ song, togglePlayBtn }) => {
 
   const { name, artist, albumArt } = song;
 

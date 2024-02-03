@@ -1,7 +1,7 @@
-import { useState, useEffect, FC } from "react"
+import { useState, useEffect, FC, ChangeEvent } from "react"
 import SearchBar from "../SearchBar/SearchBar"
 import SearchResults from "../SearchResults/SearchResults"
-import { TrackType } from "../../types/types";
+import { AlbumImageType, TrackType } from "../../types/types";
 import PlayList from "../PlayList/PlayList";
 import useAuth from "../../hooks/useAuth";
 import { Container, Toast } from "react-bootstrap";
@@ -15,7 +15,7 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
 
   const [searchResults, setSearchResults] = useState<TrackType[]>([]);
   const [playlist, setPlaylist] = useState<TrackType[]>([]);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState<string>('');
   const [currentPlayingSongUri, setCurrentPlayingSongUri] = useState<string[] | null>(null);
   const [theme, setTheme] = useState<string>('green');
   const [selectedSong, setSelectedSong] = useState<TrackType | TrackType[] | null>(null);
@@ -38,9 +38,11 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
           accessToken,
         });
         
+        console.log(res)
+
         isMounted && setSearchResults(res.data.map((track: any) => ({
           artist: track.artists[0].name,
-          albumArt: track.album.images.reduce((smallestImg: any, albumImg: any) => {
+          albumArt: track.album.images.reduce((smallestImg: AlbumImageType, albumImg: AlbumImageType) => {
             if(smallestImg.height <= albumImg.height) return smallestImg;
             return albumImg;
           }, track.album.images[0]).url,
@@ -86,14 +88,14 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
   
   // functions
 
-  const handleSearch = (e: any) => {
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
   };
   
   const addPlaylistTrack = (id: string) => {
-    let newPlaylistTracks: any[] = []
+    let newPlaylistTracks: TrackType[] = []
     const songToAdd = searchResults.find(song => song.id === id);
-    newPlaylistTracks.push(songToAdd)
+    if(songToAdd) newPlaylistTracks.push(songToAdd)
 
     setPlaylist(prevPlaylist => {
       if(prevPlaylist.find(song => song.id === id)) {

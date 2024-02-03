@@ -1,18 +1,8 @@
 import { FC, useState } from 'react';
-import { TrackType } from '../../types/types';
+import { PlaylistComponentType } from '../../types/types';
 import Track from '../Track/Track';
 
-type PlaylistType = {
-  playlist: TrackType[], 
-  deleteTrack: (id: string) => void, 
-  clearPlaylist: () => void, 
-  makePlaylist: (playlistName: string) => void, 
-  selectTrackToPlay: (track: TrackType) => void, 
-  playWholePlaylist: () => void, 
-  togglePlayBtn: TrackType | TrackType[] | null
-}
-
-const PlayList: FC<PlaylistType> = ({ playlist, deleteTrack, clearPlaylist, makePlaylist, selectTrackToPlay, playWholePlaylist, togglePlayBtn }) => {
+const PlayList: FC<PlaylistComponentType> = ({ playlist, deleteTrack, clearPlaylist, makePlaylist, selectTrackToPlay, playWholePlaylist, togglePlayBtn }) => {
   const [playlistName, setPlaylistName] = useState('');
   const [confirmPlaylistName, setConfirmPlaylistName] = useState(false);
 
