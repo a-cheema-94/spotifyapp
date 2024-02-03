@@ -37,9 +37,8 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
           query,
           accessToken,
         });
-        
-        console.log(res)
 
+        
         isMounted && setSearchResults(res.data.map((track: any) => ({
           artist: track.artists[0].name,
           albumArt: track.album.images.reduce((smallestImg: AlbumImageType, albumImg: AlbumImageType) => {
