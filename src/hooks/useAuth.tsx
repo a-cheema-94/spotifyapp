@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import axios from '../api/axios';
 
 
-const useAuth = (code: string | null) => {
+const useAuth = (code: string | null, state: string | null) => {
   const [accessToken, setAccessToken] = useState('');
   const [refreshToken, setRefreshToken] = useState('');
   const [expiresIn, setExpiresIn] = useState(0);
@@ -14,7 +14,7 @@ const useAuth = (code: string | null) => {
     const getToken = async () => {
       try {
         const res = await axios.post('/auth/token', { 
-          code,
+          code, state
          })
          
         window.history.pushState({}, '', '/');

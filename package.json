@@ -21,6 +21,7 @@
     "react-bootstrap": "^2.9.2",
     "react-dom": "^18.2.0",
     "react-spotify-web-playback": "^0.14.2",
+    "redis": "^4.7.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

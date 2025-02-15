@@ -9,9 +9,11 @@ import axios from "../../api/axios";
 import { v4 as uuidv4 } from 'uuid'
 import SongPlayer from "../SongPlayer/SongPlayer";
 
+const THEMES = [ 'green', 'purple', 'blue', 'red' ];
 
-const MainPage: FC<{ code: string | null }> = ({ code }) => {
-  const accessToken = useAuth(code)
+
+const MainPage: FC<{ code: string | null, state: string | null }> = ({ code, state }) => {
+  const accessToken = useAuth(code, state)
 
   const [searchResults, setSearchResults] = useState<TrackType[]>([]);
   const [playlist, setPlaylist] = useState<TrackType[]>([]);
@@ -161,10 +163,9 @@ const MainPage: FC<{ code: string | null }> = ({ code }) => {
     >
       {/* themes */}
       <div className="position-absolute top-0 end-0 d-flex gap-2 mt-3" style={{ paddingRight: '2rem', }}>
-        <button className="theme-button green-theme-button" onClick={() => chooseTheme('green')}></button>
-        <button className="theme-button purple-theme-button" onClick={() => chooseTheme('purple')}></button>
-        <button className="theme-button blue-theme-button" onClick={() => chooseTheme('blue')}></button>
-        <button className="theme-button red-theme-button" onClick={() => chooseTheme('red')}></button>
+        {THEMES.map((theme, index) => (
+          <button key={index} className={`theme-button ${theme}-theme-button`} onClick={() => chooseTheme(theme)}></button>
+        ))}
       </div>
       
       <div className="d-flex flex-column py-2 justify-content-between"
