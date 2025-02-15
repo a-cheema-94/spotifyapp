@@ -27,13 +27,6 @@ app.use(async (req, res, next) => {
   next();
 })
 
-// todo => research and plan redis integration. => https://redis.io/docs/latest/develop/clients/nodejs/connect/
-// todo => install redis
-// todo => add state to auth params
-// ? create state in auth/login and put in auth_query_parameters
-// ? store in Redis
-// ? in auth/token pull out state sent by spotify
-// ? make state comparison check => if state sent by spotify does not exist OR this state does not equal stored state => make endpoint respond with an error status code.
 // todo => modify client and server to have access tokens only on server side ->write out and understand flow first and then implement
 // todo => modify tests to account for this -> delete mock of useAuth hook as in this approach we don't need access tokens.
 
