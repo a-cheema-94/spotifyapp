@@ -8,6 +8,7 @@ const useAuth = (code: string | null, state: string | null) => {
   const [expiresIn, setExpiresIn] = useState(0);
   const stopMultipleCallsRef = useRef(false);
 
+
   // accessToken
   useEffect(() => {
     if(!code) return
@@ -15,7 +16,7 @@ const useAuth = (code: string | null, state: string | null) => {
       try {
         const res = await axios.post('/auth/token', { 
           code, state
-         })
+         }, { withCredentials: true })
          
         window.history.pushState({}, '', '/');
         console.log('received access token res')
@@ -52,7 +53,7 @@ const useAuth = (code: string | null, state: string | null) => {
     const interval = setInterval(() => {
       requestRefreshToken()
       
-    }, (expiresIn / 2) * 1000)
+    }, (expiresIn / 4) * 1000)
 
     return () => clearInterval(interval)
   }, [refreshToken, expiresIn])

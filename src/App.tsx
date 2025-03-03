@@ -17,8 +17,8 @@ function App() {
   return (
 
     <div className="">
-      {code ? <MainPage code={code} state={state}/> : <LoginBtn/>}
-    </div>  
+      {(code && state) ? <MainPage code={code} state={state}/> : <LoginBtn/>}
+    </div>
   )
 }
 

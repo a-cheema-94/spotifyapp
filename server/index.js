@@ -2,8 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import axios from "axios";
 import cors from "cors";
-import { redisClient } from "./redisClient.js";
 import { generateRandomString } from "./helperFunctions.js";
+import cookieParser from "cookie-parser";
 
 global.access_token = "";
 global.refresh_token = "";
@@ -18,22 +18,17 @@ const spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
 const spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
 const app = express();
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://127.0.0.1:5173" })); // allow cookies in requests from this origin
+app.use(cookieParser())
 app.use(express.json()); // parses JSON data from post requests
-app.use(async (req, res, next) => {
-  if(!redisClient.isOpen) {
-    await redisClient.connect();
-  }
-  next();
-})
-
-// todo => modify client and server to have access tokens only on server side ->write out and understand flow first and then implement
-// todo => modify tests to account for this -> delete mock of useAuth hook as in this approach we don't need access tokens.
 
 app.get("/auth/login", async (req, res) => {
   const state = generateRandomString(20);
   console.log('INITIAL STATE:', state)
-  await redisClient.set('state', state);
+
+  // put initial state in a cookie
+  res.cookie('state', state, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 1000 * 60 * 2 })
+
   const scope =
     "streaming user-read-email user-read-private user-library-read user-library-modify user-read-playback-state user-modify-playback-state playlist-modify-public playlist-modify-private";
 
@@ -44,7 +39,7 @@ app.get("/auth/login", async (req, res) => {
     state,
     redirect_uri: "http://127.0.0.1:5173/auth/callback",
   });
-
+  
   res.redirect(
     "https://accounts.spotify.com/authorize/?" +
       auth_query_parameters.toString()
@@ -57,10 +52,14 @@ app.post("/auth/token", async (req, res) => {
   const state = req.body.state;
   console.log('STATE RETURNED FROM SPOTIFY:', state);
 
-  const storedRedisState = await redisClient.get('state');
-  console.log('STORED REDIS STATE:', storedRedisState)
+  const storedCookieState = req.cookies.state;
 
-  if(!state || state !== storedRedisState) {
+
+  // retrieve cookie from request
+  console.log('STORED COOKIE STATE:', storedCookieState)
+
+  // added validation, comparison of state parameters.
+  if(!state || state !== storedCookieState) {
     return res.status(400).send('State Parameter Invalid');
   }
   
