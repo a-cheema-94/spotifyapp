@@ -16,18 +16,24 @@ dotenv.config();
 
 const spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
 const spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+const redirect_uri = "http://127.0.0.1:5173/auth/callback";
 
 const app = express();
 app.use(cors({ credentials: true, origin: "http://127.0.0.1:5173" })); // allow cookies in requests from this origin
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(express.json()); // parses JSON data from post requests
 
 app.get("/auth/login", async (req, res) => {
   const state = generateRandomString(20);
-  console.log('INITIAL STATE:', state)
+  console.log("INITIAL STATE:", state);
 
   // put initial state in a cookie
-  res.cookie('state', state, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 1000 * 60 * 2 })
+  res.cookie("state", state, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 1000 * 60 * 2,
+  });
 
   const scope =
     "streaming user-read-email user-read-private user-library-read user-library-modify user-read-playback-state user-modify-playback-state playlist-modify-public playlist-modify-private";
@@ -37,9 +43,9 @@ app.get("/auth/login", async (req, res) => {
     client_id: spotify_client_id,
     scope: scope,
     state,
-    redirect_uri: "http://127.0.0.1:5173/auth/callback",
+    redirect_uri,
   });
-  
+
   res.redirect(
     "https://accounts.spotify.com/authorize/?" +
       auth_query_parameters.toString()
@@ -50,26 +56,25 @@ app.get("/auth/login", async (req, res) => {
 app.post("/auth/token", async (req, res) => {
   const code = req.body.code;
   const state = req.body.state;
-  console.log('STATE RETURNED FROM SPOTIFY:', state);
+  console.log("STATE RETURNED FROM SPOTIFY:", state);
 
   const storedCookieState = req.cookies.state;
 
-
   // retrieve cookie from request
-  console.log('STORED COOKIE STATE:', storedCookieState)
+  console.log("STORED COOKIE STATE:", storedCookieState);
 
   // added validation, comparison of state parameters.
-  if(!state || state !== storedCookieState) {
-    return res.status(400).send('State Parameter Invalid');
+  if (!state || state !== storedCookieState) {
+    return res.status(400).send("State Parameter Invalid");
   }
-  
+
   const options = {
     method: "post",
     url: "https://accounts.spotify.com/api/token",
     data: {
       grant_type: "authorization_code",
       code: code,
-      redirect_uri: "http://127.0.0.1:5173/auth/callback",
+      redirect_uri,
     },
     headers: {
       Authorization:
