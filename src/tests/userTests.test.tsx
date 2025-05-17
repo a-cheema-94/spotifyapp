@@ -61,7 +61,7 @@ afterAll(() => {
 });
 
 test("searched song is played", async () => {
-  render(<MainPage code={"random"} />);
+  render(<MainPage code={"random"} state={"random"}/>);
 
   const searchBar = screen.getByRole("textbox");
   expect(searchBar).toBeVisible();
@@ -80,7 +80,7 @@ test("searched song is played", async () => {
 });
 
 test("newly created playlist is sent to spotify", async () => {
-  render(<MainPage code={"random"} />);
+  render(<MainPage code={"random"} state={"random"}/>);
 
   // Search for a song
   const searchBar = screen.getByRole("textbox", { name: /search\-bar/i });
@@ -164,7 +164,7 @@ test("newly created playlist is sent to spotify", async () => {
 });
 
 test("newly created playlist cleared", async () => {
-  render(<MainPage code={"random"} />);
+  render(<MainPage code={"random"} state={"random"}/>);
 
   // Search for a song
   const searchBar = screen.getByRole("textbox", { name: /search\-bar/i });
