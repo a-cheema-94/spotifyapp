@@ -42,7 +42,7 @@ A Spotify clone application, that allows users to search for songs, play them an
    SPOTIFY_CLIENT_ID = your_spotify_client_id
    SPOTIFY_CLIENT_SECRET = your_spotify_client_secret4
 
-5. In Spotify account app dashboard, make sure redirect uri is setup up to "http://127.0.0.1:5173/auth/callback"
+5. In Spotify account app dashboard, make sure redirect uri is setup up to "http://127.0.0.1:5173/auth/callback" and you have a Spotify Premium account.
 
 6. Run client development server:
 
