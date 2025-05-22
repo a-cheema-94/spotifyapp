@@ -9,19 +9,46 @@ global.access_token = "";
 global.refresh_token = "";
 global.expires_in = "";
 
-const port = 5000;
-const host = "127.0.0.1";
 
 dotenv.config();
+export const port = process.env.PORT || 4444;
+// export const host = "127.0.0.1";
 
 const spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
 const spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 const redirect_uri = "http://127.0.0.1:5173/auth/callback";
 
-const app = express();
-app.use(cors({ credentials: true, origin: "http://127.0.0.1:5173" })); // allow cookies in requests from this origin
+export const app = express();
+
+// allow cookies in requests from this origin
+const allowedOrigins = [
+  "http://127.0.0.1:5173", // dev mode
+  "VERCEL_URL"
+]
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if(allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("Not allowed by CORS"))
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept", "X-Requested-With"],
+  credentials: true,
+  maxAge: 86400
+}
+
+app.use(cors(corsOptions));
+
+
 app.use(cookieParser());
 app.use(express.json()); // parses JSON data from post requests
+
+// config for vercel
+
 
 app.get("/auth/login", async (req, res) => {
   const state = generateRandomString(20);
@@ -258,6 +285,12 @@ app.post("/playlist", (req, res) => {
   res.send("confirmation message");
 });
 
-app.listen(port, host, () => {
-  console.log(`Listening at http://127.0.0.1:${port}`);
-});
+if(process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    console.log(`Listening at ${port}`);
+  });
+}
+
+
+
+export default app;

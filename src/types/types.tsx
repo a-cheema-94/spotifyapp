@@ -44,5 +44,5 @@ export type SearchResultsComponentType = {
 
 export type SongPlayerComponentType = {
   accessToken: string,
-  trackUri: string[] | null
+  trackUri: string[] | string
 }

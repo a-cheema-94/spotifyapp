@@ -170,3 +170,23 @@ input[type=text]:not(:placeholder-shown) {
 ::-webkit-scrollbar-thumb:hover {
   background: #c2c2c2; 
 }
+
+/* spotify logo image */
+
+.image-wrapper {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+}
+
+.spotify-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border: solid transparent 1px;
+  border-radius: 50%;
+}
